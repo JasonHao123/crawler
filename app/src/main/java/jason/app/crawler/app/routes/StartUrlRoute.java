@@ -24,6 +24,7 @@ public class StartUrlRoute extends RouteBuilder {
 						public void process(Exchange exchange) throws Exception {
 					        Request payload = exchange.getIn().getBody(Request.class);
 					        payload.setScore(0D);
+					        payload.setFollow(true);
 					        exchange.getIn().setBody(payload);	
 						}
 					})

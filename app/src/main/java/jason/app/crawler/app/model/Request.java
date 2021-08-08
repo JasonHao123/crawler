@@ -1,12 +1,11 @@
 package jason.app.crawler.app.model;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Request implements Serializable {
+public class Request extends Result {
 	private String url;
 	private String platform;
 	private Map<String,String> headers;
@@ -15,8 +14,10 @@ public class Request implements Serializable {
 	private boolean force;
 	private String type;
 	private Double score;
+	//TODO handle post method
 	private boolean post;
 	private String rule;
+	private boolean follow;
 
 	public Request() {}
 	public Request(String url) {
@@ -83,6 +84,12 @@ public class Request implements Serializable {
 	}
 	public void setRule(String rule) {
 		this.rule = rule;
+	}
+	public boolean isFollow() {
+		return follow;
+	}
+	public void setFollow(boolean follow) {
+		this.follow = follow;
 	}
 
 	

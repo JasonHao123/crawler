@@ -5,12 +5,12 @@ import java.io.IOException;
 import org.apache.camel.Exchange;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class DownloadService {
 			if(response.getStatusLine().getStatusCode() < 200 && response.getStatusLine().getStatusCode() > 299) {
 				throw new IOException("download failed");
 			}
-			exchange.getIn().setBody(EntityUtils.toString(response.getEntity()));
+			exchange.getIn().setBody(Jsoup.parse(EntityUtils.toString(response.getEntity()),payload.getUrl()));
 		} catch (Exception e) {
 			throw new IllegalStateException(e);
 		} finally {

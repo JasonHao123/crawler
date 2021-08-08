@@ -10,6 +10,7 @@ public class DownloadRoute extends RouteBuilder{
 	public void configure() throws Exception {
 		from("seda:download").id("download")
 		.setHeader("type", simple("${body.type}"))
+		.setHeader("request",body())
 		.choice()
 		.when(header("type").isEqualTo("selenium"))
 		  .to("bean:downloader?method=selenium")
