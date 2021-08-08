@@ -11,9 +11,12 @@ public class Request implements Serializable {
 	private String platform;
 	private Map<String,String> headers;
 	private Map<String,String> cookies;
+	private Map<String,String> meta;
 	private boolean force;
 	private String type;
 	private Double score;
+	private boolean post;
+	private String rule;
 
 	public Request() {}
 	public Request(String url) {
@@ -62,6 +65,24 @@ public class Request implements Serializable {
 	}
 	public void setScore(Double score) {
 		this.score = score;
+	}
+	public boolean isPost() {
+		return post;
+	}
+	public void setPost(boolean post) {
+		this.post = post;
+	}
+	public Map<String, String> getMeta() {
+		return meta;
+	}
+	public void setMeta(Map<String, String> meta) {
+		this.meta = meta;
+	}
+	public String getRule() {
+		return rule;
+	}
+	public void setRule(String rule) {
+		this.rule = rule;
 	}
 
 	
