@@ -8,16 +8,17 @@ public class DownloadRoute extends RouteBuilder{
 
 	@Override
 	public void configure() throws Exception {
-		from("seda:download")
+		from("seda:download").id("download")
 		.setHeader("type", simple("${body.type}"))
 		.choice()
 		.when(header("type").isEqualTo("selenium"))
-		  .log("selenium")
+		  .to("bean:downloader?method=selenium")
 		 .when(header("type").isEqualTo("curl"))
-		 .log("curl")
+		 .to("bean:downloader?method=curl")
 		 .otherwise()
-		 .log("httpclient")
-		.end();
+		 .to("bean:downloader?method=httpclient")
+		.end()
+		.to("seda:process");
 	}
 
 }

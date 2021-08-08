@@ -13,6 +13,7 @@ public class Request implements Serializable {
 	private Map<String,String> cookies;
 	private boolean force;
 	private String type;
+	private Double score;
 
 	public Request() {}
 	public Request(String url) {
@@ -55,6 +56,12 @@ public class Request implements Serializable {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+	public Double getScore() {
+		return score;
+	}
+	public void setScore(Double score) {
+		this.score = score;
 	}
 
 	

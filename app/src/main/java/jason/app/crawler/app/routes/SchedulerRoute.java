@@ -20,17 +20,17 @@ public class SchedulerRoute extends RouteBuilder{
 
 	@Override
 	public void configure() throws Exception {
-		from("seda:schedule")
+		from("seda:schedule").id("schedule")
 		.choice().when(simple("${body.isForce()} == false")).idempotentConsumer(simple("${body.url}"),new MemoryIdempotentRepository()).to("seda:saveToQueue").endChoice().otherwise().to("seda:saveToQueue").end();
 		
-		from("seda:saveToQueue")
+		from("seda:saveToQueue").id("save-to-queue")
 		.setHeader("CamelRedis.Key", constant("explore:requests"))
+		.setHeader("CamelRedis.Score",simple("${body.getScore()}"))
 		.marshal(new JacksonDataFormat(Request.class))
 		.setHeader("CamelRedis.value",body().convertToString())
-		.setHeader("CamelRedis.Score",header("score"))
 		.to("spring-redis:localhost:6379?serializer=#stringSerializer&command=ZADD");
 		
-		from("timer:scheduler?period=1s")
+		from("timer:scheduler?period=1s").id("schedule-download")
 //		.setHeader("CamelRedis.Key", constant("explore:requests"))
 		.process(new Processor() {
 			@Override
